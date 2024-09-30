@@ -2,11 +2,7 @@ import type { AIMessage } from "@langchain/core/messages";
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { ChatOpenAI } from "@langchain/openai";
 
-import {
-  MessagesAnnotation,
-  StateGraph,
-  Annotation,
-} from "@langchain/langgraph";
+import { MessagesAnnotation, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 
 const tools = [new TavilySearchResults({ maxResults: 3 })];
@@ -24,7 +20,7 @@ async function callModel(state: typeof MessagesAnnotation.State) {
   const response = await model.invoke([
     {
       role: "system",
-      content: `You are a helpful assistant. For every question, research, get the results, reflect on the question to craft the response, and then respond the best way you can.`,
+      content: `You are a helpful assistant. The current date is ${new Date().getTime()}.`,
     },
     ...state.messages,
   ]);
@@ -71,7 +67,7 @@ const workflow = new StateGraph(MessagesAnnotation)
 
 // Finally, we compile it!
 // This compiles it into a graph you can invoke and deploy.
-export const graph = workflow.compile({
+export const graph2 = workflow.compile({
   // if you want to update the state before calling the tools
   // interruptBefore: [],
 });
